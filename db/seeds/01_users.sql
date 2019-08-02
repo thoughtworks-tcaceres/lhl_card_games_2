@@ -1,0 +1,10 @@
+INSERT INTO users (username,email,password) VALUES ('t','t@gmail.com','tpw');
+INSERT INTO users (username,email,password) VALUES ('a','a@gmail.com','apw');
+INSERT INTO users (username,email,password) VALUES ('x','@gmail.com','xpw');
+INSERT INTO users (username,email,password) VALUES ('tyler','tyler@gmail.com','tylerpw');
+INSERT INTO users (username,email,password) VALUES ('jj','jj@gmail.com','jjxpw');
+INSERT INTO users (username,email,password) VALUES ('joe','joe@gmail.com','joexpw');
+INSERT INTO users (username,email,password) VALUES ('viet','viet@gmail.com','vietxpw');
+INSERT INTO users (username,email,password) VALUES ('anchen','anchen@gmail.com','anchenxpw');
+INSERT INTO users (username,email,password) VALUES ('selin','selin@gmail.com','selinxpw');
+INSERT INTO users (username,email,password) VALUES ('lighthouse','lighthouse@gmail.com','lighthousexpw');
