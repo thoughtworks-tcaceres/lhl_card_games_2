@@ -1,3 +1,5 @@
+// NOTE: Game name MUST NOT contain "-", or server will crash
+
 let game_data = {
   
   whosbigger: {
