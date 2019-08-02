@@ -114,7 +114,7 @@ io.use(
 // MY NEW STUFFS HEREEEEEEEEEEEEEEEEEEEEEEEEEEEE
 
 const {socketForKingsCup} = require('./public/scripts/kingsCup/serverSide');
-const { kingsCup2 } = require('./public/scripts/kingsCup2/server');
+const {kingsCup2} = require('./public/scripts/kingsCup2/server');
 
 const socketIdToEmail = {};
 
@@ -184,7 +184,6 @@ io.on('connection', (socket) => {
   //   //array of object that updates each rank for a single --> same thing as regularupdate session?
   //   .catch((err) => console.log(err));
 
-
   let currentRoom;
 
   //00000000000000000000000000000000000
@@ -236,7 +235,7 @@ io.on('connection', (socket) => {
   // Delete the room
 
   socket.on('deleteSpecificRoom', () => {
-    socket.emit('removeSpecificRoom', currentRoom);
+    io.sockets.emit('removeSpecificRoom', currentRoom);
     const roomGameId = getRoomGameId(currentRoom);
     delete game_data[roomGameId.gameId].room_data[roomGameId.roomId];
     currentRoom = null;
@@ -246,7 +245,6 @@ io.on('connection', (socket) => {
   // Join a room
 
   socket.on('joinARoom', (data) => {
-
     // Check to see if user is trying to join the room he/she has already joined
 
     const uniqueRoomName = `${data.gameId}-${data.roomId}`;
@@ -372,12 +370,15 @@ io.on('connection', (socket) => {
           'kc player 1 on init',
           kingsCup2Data[currentRoom].game.getPlayers()
         );
-        io.to(currentRoom).emit('init game', {playerArr: kingsCup2Data[currentRoom].game.getPlayers(), idToEmail: socketIdToEmail});
+        io.to(currentRoom).emit('init game', {
+          playerArr: kingsCup2Data[currentRoom].game.getPlayers(),
+          idToEmail: socketIdToEmail
+        });
       }
       let DB_game_id = roomGameId.gameId === `kingsCup` ? 1 : 2;
-     let DB_players_arr = game_data[roomGameId.gameId].room_data[roomGameId.roomId].joinedPlayers.map((player) => {
-       return socketIdToEmail[player];
-     });
+      let DB_players_arr = game_data[roomGameId.gameId].room_data[roomGameId.roomId].joinedPlayers.map((player) => {
+        return socketIdToEmail[player];
+      });
       /**** include initial push to DB here */
       //************************************** */
       addRecordDB(DB_game_id) //(game_id)
@@ -391,8 +392,6 @@ io.on('connection', (socket) => {
         .catch((err) => console.log(err));
     }
   });
-    
-  
 
   socket.on('checkPasscode', (data) => {
     if (game_data[data.gameId].room_data[data.roomId].passcode) {
@@ -412,5 +411,4 @@ io.on('connection', (socket) => {
 
   socketForKingsCup(io, socket, kingsCupData, userCurrentRoom, game_data);
   kingsCup2(io, socket, kingsCup2Data, userCurrentRoom);
-  
 });
