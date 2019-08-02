@@ -11,7 +11,8 @@ const getPlayerRankingsByGameType = () => {
                       join records r on r.id = s.record_id
                       join games g on g.id = r.game_id
                       where r.end_time IS NOT NULL
-                      group by u.id, g.id`;
+                      group by u.id, g.id
+                      order by win_percent DESC`;
   return db
     .query({
       text: queryString,

@@ -1,5 +1,5 @@
-// let socket = io.connect('https://lhl-card-games.herokuapp.com/');
-let socket = io.connect('http://localhost:8080/');
+let socket = io.connect('https://lhl-card-games.herokuapp.com/');
+// let socket = io.connect('http://localhost:1000/');
 
 let gameRoomIdUserIsTryingToJoinWithPasscode;
 
@@ -42,7 +42,7 @@ socket.on('updateRoomStatus', (data) => {
     $('#deleteRoomBtn').css('display', 'block');
   } else {
     $('#deleteRoomBtn').css('display', 'none');
-  };
+  }
 });
 
 socket.on('askForPasscode', (data) => {
@@ -63,7 +63,7 @@ socket.on('joinAfterPasscode', (data) => {
   } else {
     $('#wrongPasscodeEntered').toggle(500, function() {
       $('#wrongPasscodeEntered').hide(2000);
-    })
+    });
   }
 });
 
@@ -75,7 +75,7 @@ socket.on('showSomeErrorMessageInLobby', (msg) => {
 });
 
 socket.on('removeSpecificRoom', (data) => {
-  console.log('removing', data)
+  console.log('removing', data);
   $(`#specificRoomBtnIdFor${data}`).remove();
   logs.innerHTML = '<br><br>';
   // $('#joinGameBtn').css('display', 'none');
@@ -154,18 +154,16 @@ const passcodeInputHandler = function() {
       type: 'POST',
       data: $(this).serialize(),
       dataType: 'text'
-    }).done(function(data) {
-      // console.log('successful passcode Insert!', data)
+    })
+      .done(function(data) {
+        // console.log('successful passcode Insert!', data)
 
-      socket.emit('validatePasscode', [
-        gameRoomIdUserIsTryingToJoinWithPasscode,
-        data
-      ]);
-      // console.log(gameRoomIdUserIsTryingToJoinWithPasscode);
-
-    }).fail(function(error) {
-      console.log('Error at passcode submission: ', error);
-    });
+        socket.emit('validatePasscode', [gameRoomIdUserIsTryingToJoinWithPasscode, data]);
+        // console.log(gameRoomIdUserIsTryingToJoinWithPasscode);
+      })
+      .fail(function(error) {
+        console.log('Error at passcode submission: ', error);
+      });
   });
 };
 

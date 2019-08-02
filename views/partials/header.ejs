@@ -8,17 +8,23 @@
     <link rel="stylesheet" href="/vendor/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="/styles/lobby.css" type="text/css" />
     <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/datatables.min.css" />
 
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+    <script type="text/javascript" src="./scripts/results.js"></script>
     <script type="text/javascript" src="/vendor/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/datatables.min.js"></script>
+
     <!-- <script type="text/javascript" src="/scripts/app.js"></script> -->
     <script
       type="text/javascript"
       src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"
     ></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
   </head>
 
   <body>
-    <% include ./nav.ejs %>
-    <% include ./flashMessages.ejs %>
+    <% include ./nav.ejs %> <% include ./flashMessages.ejs %>
+  </body>
+</html>

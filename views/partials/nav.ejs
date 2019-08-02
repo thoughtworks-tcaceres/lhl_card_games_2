@@ -25,8 +25,8 @@
     </ul>
     <div class="navbar-nav">
       <% if(user) { %>
-      <div>
-        <Label style="padding: 0 30px">Logged In As: <%= user %>!</Label>
+      <div style="display:flex">
+        <Label style="padding: 0 30px; color:white">Logged In As: <%= user %>!</Label>
         <form class="form-inline my-2 my-lg-0" action="/logout" method="POST">
           <button type="submit" class="btn">Logout</button>
         </form>
