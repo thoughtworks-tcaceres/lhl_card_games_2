@@ -6,7 +6,7 @@ const Game = require('./Games/KingsCup');
 //JJ stuff ===========JJstuff ==============
 
 // Web server config
-const PORT = process.env.PORT || 1000;
+const PORT = process.env.PORT || 8080;
 const ENV = process.env.ENV || 'development';
 const express = require('express');
 const sass = require('node-sass-middleware');
@@ -114,9 +114,13 @@ io.use(
 // MY NEW STUFFS HEREEEEEEEEEEEEEEEEEEEEEEEEEEEE
 
 const {socketForKingsCup} = require('./public/scripts/kingsCup/serverSide');
+
+const {handleSocketDisconnect} = require('./public/scripts/handleSocketDisconnectServer');
 const {kingsCup2} = require('./public/scripts/kingsCup2/server');
 
 const socketIdToEmail = {};
+
+const sockeIdDetails = {}
 
 const kingsCupData = {};
 const kingsCup2Data = {};
@@ -188,42 +192,48 @@ io.on('connection', (socket) => {
 
   //00000000000000000000000000000000000
   userCurrentRoom[socket.id] = null;
+  sockeIdDetails[socket.id] = {
+    inProgress: null
+  };
 
   //000000000000000000000000000
 
   // Handle the event when the user is disconnected
 
-  socket.on('disconnect', () => {
-    //0000000000000000000000000000
-    delete userCurrentRoom[socket.id];
-    //0000000000000000000000000000000
 
-    if (!currentRoom) {
-      return;
-    }
-    let room_info = io.sockets.adapter.rooms[currentRoom];
-    let roomGameId = getRoomGameId(currentRoom);
-    if (room_info) {
-      if (
-        Object.keys(room_info.sockets).length < game_data[roomGameId.gameId].min_players ||
-        Object.keys(room_info.sockets).length ===
-          game_data[roomGameId.gameId].room_data[roomGameId.roomId].joinedPlayers.length
-      ) {
-        game_data[roomGameId.gameId].room_data[roomGameId.roomId].joinedPlayers = [];
-      }
-      io.sockets
-        .to(currentRoom)
-        .emit('updateRoomStatus', [
-          Object.keys(room_info.sockets),
-          currentRoom,
-          game_data[roomGameId.gameId].room_data[roomGameId.roomId].joinedPlayers,
-          socket.id,
-          game_data[roomGameId.gameId].min_players
-        ]);
-    } else {
-      game_data[roomGameId.gameId].room_data[roomGameId.roomId].joinedPlayers = [];
-    }
-  });
+  handleSocketDisconnect(io, socket, userCurrentRoom, game_data, sockeIdDetails);
+
+  // socket.on('disconnect', () => {
+    // //0000000000000000000000000000
+    // delete userCurrentRoom[socket.id];
+    // //0000000000000000000000000000000
+
+    // if (!currentRoom) {
+    //   return;
+    // }
+    // let room_info = io.sockets.adapter.rooms[currentRoom];
+    // let roomGameId = getRoomGameId(currentRoom);
+    // if (room_info) {
+    //   if (
+    //     Object.keys(room_info.sockets).length < game_data[roomGameId.gameId].min_players ||
+    //     Object.keys(room_info.sockets).length ===
+    //       game_data[roomGameId.gameId].room_data[roomGameId.roomId].joinedPlayers.length
+    //   ) {
+    //     game_data[roomGameId.gameId].room_data[roomGameId.roomId].joinedPlayers = [];
+    //   }
+    //   io.sockets
+    //     .to(currentRoom)
+    //     .emit('updateRoomStatus', [
+    //       Object.keys(room_info.sockets),
+    //       currentRoom,
+    //       game_data[roomGameId.gameId].room_data[roomGameId.roomId].joinedPlayers,
+    //       socket.id,
+    //       game_data[roomGameId.gameId].min_players
+    //     ]);
+    // } else {
+    //   game_data[roomGameId.gameId].room_data[roomGameId.roomId].joinedPlayers = [];
+    // }
+  // });
 
   // Create new room
 
@@ -333,10 +343,16 @@ io.on('connection', (socket) => {
           socket.id,
           game_data[roomGameId.gameId].min_players
         ]);
-    } else if (
-      Object.keys(clients).length === game_data[roomGameId.gameId].room_data[roomGameId.roomId].joinedPlayers.length
-    ) {
+    } else if (Object.keys(clients).length === game_data[roomGameId.gameId].room_data[roomGameId.roomId].joinedPlayers.length) {
       io.sockets.to(currentRoom).emit('directToGame', {uniqueRoomName: currentRoom, gameId: roomGameId.gameId});
+
+      // sockeIdDetails = {}
+
+      for (let id of game_data[roomGameId.gameId].room_data[roomGameId.roomId].joinedPlayers) {
+        sockeIdDetails[id] = {
+          inProgress: roomGameId.gameId
+        };
+      };
 
       // Setup for the start of the game
 
