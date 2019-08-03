@@ -2,7 +2,7 @@ const db = require('../../db/db');
 
 //player rankings by game type
 const getPlayerRankingsByGameType = () => {
-  const queryString = `select u.username as username, u.email as email, g.name as "game name",
+  const queryString = `select u.username as username, u.email as email, g.name as "game_name",
                       sum(case when s.win = true then 1.00 else 0.00 end) as total_wins,
                       count(*) as total_games,
                       round((sum(case when s.win = true then 1.00 else 0.00 end)/count(*))*100,2) as win_percent
@@ -24,7 +24,7 @@ const getPlayerRankingsByGameType = () => {
 
 //archive of games played by each player
 const getArchivedGames = () => {
-  const queryString = `select u.username as "username", u.email as "email" , g.name as "game name", r.id as "game_id", case when s.win = true then 'win' else 'loss' end as "win/loss"
+  const queryString = `select u.username as "username", u.email as "email" , g.name as "game_name", r.id as "game_id", case when s.win = true then 'win' else 'loss' end as "win_loss"
                         from users u
                         join sessions s on s.user_id = u.id
                         join records r on r.id = s.record_id
