@@ -9,6 +9,7 @@ const handleSocketDisconnect = function(io, socket, userCurrentRoom, game_data, 
     delete userCurrentRoom[socket.id];
 
     if (!currentRoom) {
+      delete sockeIdDetails[socket.id];
       return;
     }
     let room_info = io.sockets.adapter.rooms[currentRoom];
