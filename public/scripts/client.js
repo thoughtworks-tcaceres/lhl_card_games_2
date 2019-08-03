@@ -1,5 +1,5 @@
 // let socket = io.connect('https://lhl-card-games.herokuapp.com/');
-let socket = io.connect('http://localhost:8080/');
+let socket = io.connect('http://localhost:1000/');
 
 let gameRoomIdUserIsTryingToJoinWithPasscode;
 
