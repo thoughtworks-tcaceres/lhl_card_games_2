@@ -6,7 +6,9 @@
   <div id = "gametabs">
 
     <% for (let game in game_data) { %>
+      <% if(game === 'kingsCup' || game=== 'kingsCup2'){ %>
       <button  class="game btn btn-secondary" data-gamename="<%= game %>" ><%= game %></button>
+      <% } %>
     <% } %>
   </div>
   <br>
