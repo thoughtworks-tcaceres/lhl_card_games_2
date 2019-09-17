@@ -411,6 +411,10 @@ io.on('connection', (socket) => {
   });
 
   socket.on('checkPasscode', (data) => {
+    if (!game_data[data.gameId].room_data[data.roomId]) {
+      socket.emit('forceRefreshGamesPage');
+      return;
+    }
     if (game_data[data.gameId].room_data[data.roomId].passcode) {
       socket.emit('askForPasscode', [data, true]);
     } else {
