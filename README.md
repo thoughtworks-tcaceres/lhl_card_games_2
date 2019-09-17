@@ -1,34 +1,19 @@
-# Parlez - Let's Talk
+# LHL CARD GAMES
 
-Lighthouse Labs Final project
-
-#### real time messaging application using socket IO
-
-### Light House Lab Final Project
-
-### [Client Side github repo](https://github.com/tylercaceres/parlez_client-side)
-
-### [Server Side github repo](https://github.com/tylercaceres/parlez_server-side)
-
----
+Light house labs midterm project. Real time gaming application using socket IO.
 
 # Tech Stack
 
-### Testing
-
-- Storybook
-- Postico
-
 ### Front End
 
-- Material-UI
-- React
+- Bootstrap
+- EJS
 - Socket.IO
 
 ### Back End
 
 - Express
-- PostgreSQL
+- JQuery
 - Socket.IO
 
 ## Final Product
